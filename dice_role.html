@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>dice app</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .container{
+            width:80%;
+            padding: 35px;
+            height: auto;
+            margin:0 auto;
+        }
+        .container .output{
+            padding: 25px;
+            margin: 0 auto;
+            text-align: center;
+            border:1px solid black;
+            width: 60%;
+        }
+        .container .dice-container{
+            text-align: center;
+        }
+        .container .player1 , .player2{
+            width: 250px;
+            height: 250px;
+            margin:15px;
+            border: 1px solid black;
+            border-radius: 10%;
+            display: inline-block;
+        }
+        .button-conainter button{
+            display: block;
+            padding: 20px;
+            width: 60%;
+            border-radius: 5%;
+            margin:0 auto;
+            background: rgb(69, 69, 238);
+            color:white;
+        }
+        .dice{
+            width: 50%;
+            height: 50%;
+            border:1px solid black;
+            border-radius: 10px;
+            vertical-align: middle;
+            margin-top: 21%;
+            margin-left: 23%;
+
+        }
+        .black{
+            width:30px;
+            height: 30px;
+             float: left;
+            border-radius: 50%;
+            background-color: black;
+            color:white;
+            margin: 5px;
+        }
+        .white{
+            width:30px;
+            height: 30px;
+            float: left;
+            border-radius: 50%;
+            background-color: white;
+            color:white;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="output"></div>
+        <div class="dice-container">
+            <div class="player1">
+            </div>
+            <div class="player2">
+            </div>
+        </div>
+        <div class="button-conainter">
+            <button>roll</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const button = document.querySelector('button');
+        let temp;
+        const dice_numbers = [ [5] , [1,9] , [1,5,9] , [1,3,7,9] , [1,3,5,7,9] , [1,3,4,6,7,9] ];   
+        button.addEventListener('click', ()=>{
+            let rolls = [roll(),roll()];
+            let player1_dice = dice_numbers[rolls[0]];
+            let player2_dice = dice_numbers[rolls[1]];
+            let player1 = document.querySelector(".player1");
+            let player2 = document.querySelector(".player2");
+            if(player1.firstElementChild){
+                player1.firstElementChild.remove();
+            }
+            if(player2.firstElementChild){
+                player2.firstElementChild.remove();
+            }
+            let diceNode1 = document.createElement("div")
+            let diceNode2 = document.createElement("div")
+            player1.appendChild (diceNode1);
+            player2.appendChild (diceNode2);
+            player1.firstElementChild.setAttribute('class','dice')
+            player2.firstElementChild.setAttribute('class','dice')
+            player1.firstElementChild.innerHTML= '<div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>';
+            player2.firstElementChild.innerHTML= '<div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>';
+            player1_dice.forEach((value,index)=>{
+                player1.firstElementChild.children[value-1].setAttribute('class', 'black');
+            })
+            player2_dice.forEach((value,index)=>{
+                player2.firstElementChild.children[value-1].setAttribute('class', 'black');
+            })
+            if(rolls[0] == rolls[1]){
+                temp = 'DRAW'
+            }
+            else if (rolls[0] > rolls[1]){
+                temp = "PLAYER 1 WINS"
+            }
+            else{
+                temp = "COMPUTER WINS"
+            }
+            document.querySelector('.output').innerHTML = temp
+            console.log(rolls[0]+1 , rolls[1]+1)
+        });
+        const roll = ()=>{
+            return Math.floor(Math.random()*6);
+        };
+        
+     
+    </script>
+</body>
+</html>
